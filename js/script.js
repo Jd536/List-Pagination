@@ -8,7 +8,7 @@ let students = document.getElementsByClassName("student-item");
 let studentsList=Array.from(students);
 let = numberOfPages = Math.ceil(studentsList.length/10); /* Calculate the number of pages based on number of items/ students divided by the max number of items per page*/
 let results = [];
-
+let divs = Array.from(document.querySelectorAll(".page div"));
 
 /* ************************************************************************************************
       Generates a div, ul and li. append the ul to the Div element, and the li's to the ul element. 
@@ -33,6 +33,7 @@ let pagination = (pages)=>{
    }
    pageDiv.appendChild(ul);
    page.appendChild(pageDiv);
+   
 }
 pagination(numberOfPages);
 
@@ -100,6 +101,7 @@ let insertSearchBar = ()=>{
 }
 insertSearchBar();
 
+
 // search function
 
 
@@ -107,12 +109,17 @@ let studentSearch = ()=>{
    
    let searchBar = document.querySelectorAll(".student-search input")[0];
    let searchButton = document.querySelectorAll(".student-search button")[0];
-   let paginationMain=document.querySelectorAll(".pagination")[0];
-    // search on click event
+  
+      // search on click event
    searchButton.addEventListener('click', (e)=>{
-      //assign the input value to a variable
+      let alert = document.createElement("p");
+     
+        //assign the input value to a variable
       let input = searchBar.value.toLowerCase();
-      
+      if (input==" "){
+         alert.textContent="The Search field is empty.";
+         e.preventDefault();
+      }
       let names = Array.from(document.querySelectorAll(".student-details h3"));
        studentsList.forEach((student)=>{
          const name= student.querySelectorAll("h3")[0].textContent.toLocaleLowerCase();
@@ -125,19 +132,23 @@ let studentSearch = ()=>{
          }
       });
       // Pagination based on search results
+      let paginationDiv = document.querySelectorAll(".pagination")[0];
+        let pageParent =paginationDiv.parentNode;
+        pageParent.removeChild(paginationDiv);
+      console.log(pageParent);
       let resultsPagination= ()=>{
+        
+        console.log(paginationDiv);
          if(results.length==0){
-            let alert = document.createElement("p");
             alert.textContent="No Results Found !!!";
             page.appendChild(alert);
-            paginationMain.style.display="none";
-         }else if(results.length>0){
-            let = numberOfResultsPages = Math.ceil(results.length/10);
-            paginationMain.style.display="none";
+         } if(results.length>0){
+            let = numberOfResultsPages = Math.round(results.length/10);
             pagination(numberOfResultsPages);
             showPage(results);
          }
       }
+ 
      resultsPagination();
  });
    // search on keyup event
