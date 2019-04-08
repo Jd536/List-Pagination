@@ -113,7 +113,7 @@ let studentSearch = ()=>{
       // search on click event
    searchButton.addEventListener('click', (e)=>{
       let alert = document.createElement("p");
-     
+      results.length=0;
         //assign the input value to a variable
       let input = searchBar.value.toLowerCase();
       if (input==" "){
@@ -126,7 +126,7 @@ let studentSearch = ()=>{
          if(name.indexOf(input)!=-1){
             results.push(student);// add the displayed element in an array
             student.style.display="block"; 
-            
+            console.log(results);
          }else{
             student.style.display ="none";
          }
@@ -135,15 +135,14 @@ let studentSearch = ()=>{
       let paginationDiv = document.querySelectorAll(".pagination")[0];
         let pageParent =paginationDiv.parentNode;
         pageParent.removeChild(paginationDiv);
-      console.log(pageParent);
+      
       let resultsPagination= ()=>{
         
-        console.log(paginationDiv);
-         if(results.length==0){
+            if(results.length==0){
             alert.textContent="No Results Found !!!";
             page.appendChild(alert);
          } if(results.length>0){
-            let = numberOfResultsPages = Math.round(results.length/10);
+            let = numberOfResultsPages = Math.ceil(results.length/10);
             pagination(numberOfResultsPages);
             showPage(results);
          }
